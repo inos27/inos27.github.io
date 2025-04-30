@@ -1,71 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NUCHR ASMR - Live Stream</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f5f9;
-            margin: 0;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 20px 0;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .player {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        iframe {
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Web OBS - Live to YouTube</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+    }
+    .obs-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .video-preview {
+      flex: 1;
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .controls {
+      background-color: #333;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      padding: 10px 20px;
+      background: #2196F3;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:disabled {
+      background: gray;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>🎧 NUCHR ASMR Live Stream</h1>
-        <p>Rain & Ambient Sounds • 24/7 Relaxation</p>
-    </header>
-
-    <div class="container">
-        <!-- Player 1 -->
-        <div class="player">
-            <h2>🌧️ Rain Sounds</h2>
-            <iframe 
-                width="560" 
-                height="315" 
-                src="https://www.youtube.com/embed/VIDEO_ID_1?autoplay=1&mute=1" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
-        </div>
-
-        <!-- Player 2 -->
-        <div class="player">
-            <h2>🌿 Ambient Sounds</h2>
-            <iframe 
-                width="560" 
-                height="315" 
-                src="https://www.youtube.com/embed/VIDEO_ID_2?autoplay=1&mute=1" 
-                frameborder="0" 
-                allowfullscreen>
-            </iframe>
-        </div>
+  <div class="obs-container">
+    <div class="video-preview" id="preview">
+      <video id="previewVideo" autoplay muted playsinline></video>
     </div>
+    <div class="controls">
+      <button id="startBtn">🎥 Start Camera</button>
+      <button id="streamBtn" disabled>🔴 Go Live</button>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById("startBtn");
+    const streamBtn = document.getElementById("streamBtn");
+    const previewVideo = document.getElementById("previewVideo");
+
+    let stream;
+
+    startBtn.onclick = async () => {
+      stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      previewVideo.srcObject = stream;
+      streamBtn.disabled = false;
+    };
+
+    streamBtn.onclick = () => {
+      alert("Streaming ke YouTube tidak bisa langsung dari browser!\nGunakan OBS atau server RTMP.");
+    };
+  </script>
 </body>
 </html>
